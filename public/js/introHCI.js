@@ -17,7 +17,22 @@ function initializePage() {
 /*
  * Make an AJAX call to retrieve project details and add it in
  */
+ function addProject(result) {
+  var projectHTML = /*'<a href="#" class="thumbnail">' +*/
+    '<img src="' + result['image'] + '" class="img">' +
+    '<p>' + result['title'] + '</p>' +
+    '<p><small>' + result['date'] + 
+    '</small></p>'+ result['summary'];
+    console.log(result);
+    var project= $('#project'+result.id);
+    project.find('.details').html(projectHTML);
+
+}
+ /*$("#testjs").click(function(e)){
+ $.get("/project/random", addproject );
+}*/
 function addProjectDetails(e) {
+
 	// Prevent following the link
 	e.preventDefault();
 
@@ -27,12 +42,23 @@ function addProjectDetails(e) {
 	var idNumber = projectID.substr('project'.length);
 
 	console.log("User clicked on project " + idNumber);
-}
+	 $.get("/project/" + idNumber, addProject );
 
+}
+function getcolors(colors){
+$('body').css('background-color', colors[0]);
+$('.thumbnail').css('background-color', colors[1]);
+$('h1, h2, h3, h4, h5, h5').css('color', colors[2]);
+$('p').css('color', colors[3]);
+$('.project img').css('opacity', .75);
+console.log(colors);
+}
 /*
  * Make an AJAX call to retrieve a color palette for the site
  * and apply it
  */
 function randomizeColors(e) {
+	$.get("/palette", getcolors);
 	console.log("User clicked on color button");
+
 }
